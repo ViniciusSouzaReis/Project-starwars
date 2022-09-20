@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
+import FormSearch from '../components/FormSearch';
 import StarWarsContext from '../context/StartWarsContext';
 
 function Table() {
-  const { data } = useContext(StarWarsContext);
+  const { filteredData } = useContext(StarWarsContext);
 
   const titleTable = [
     'Name', 'Rotation Period', 'Orbital Period', 'Diameter', 'Climate', 'Gravity',
@@ -12,6 +13,7 @@ function Table() {
 
   return (
     <div>
+      <FormSearch />
       <table>
         <thead>
           <tr>
@@ -21,7 +23,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {data.map((info, index) => (
+          {filteredData.map((info, index) => (
             <tr key={ index }>
               <td>{info.name}</td>
               <td>{info.rotation_period}</td>
