@@ -24,16 +24,11 @@ function Provider({ children }) {
     setFilteredData(data);
   }, [data]);
 
-  const caseSensitive = useCallback((param) => {
-    const filter = filterText.filterByName.name;
-    const filterPlanet = param.name.toLowerCase();
-    return (filterPlanet.includes(filter) ? param : '');
-  }, [filterText.filterByName.name]);
-
   useEffect(() => {
-    const filteredObjects = Object.values(data).filter((e) => caseSensitive(e));
-    setFilteredData(filteredObjects);
-  }, [data, filterText.filterByName, caseSensitive]);
+    const filterName = filterText.filterByName.name;
+    const dataFiltered = data.filter((e) => e.name.includes(filterName));
+    setFilteredData(dataFiltered);
+  }, [data, filterText.filterByName]);
 
   const createFilterText = ({ target }) => {
     setFilterText({
