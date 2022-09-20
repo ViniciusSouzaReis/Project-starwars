@@ -8,7 +8,9 @@ function Provider({ children }) {
   const [filterText, setFilterText] = useState({
     filterByName: {
       name: '',
-    } });
+    },
+    filterByNumericValues: [],
+  });
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -39,11 +41,34 @@ function Provider({ children }) {
     });
   };
 
+  const filterValues = (object) => {
+    const getValues = [object];
+    let filteredPlanets = filteredData;
+    getValues.forEach(({ column, comparison, value }) => {
+      filteredPlanets = filteredPlanets.filter((e) => {
+        if (comparison === 'maior que') {
+          return Number(e[column]) > value;
+        }
+        if (comparison === 'menor que') {
+          return Number(e[column]) < value;
+        }
+        if (comparison === 'igual a') {
+          return Number(e[column]) === Number(value);
+        }
+        return 'a';
+      });
+    });
+    console.log(filteredPlanets);
+    setFilteredData(filteredPlanets);
+  };
+
   const contextValue = {
     data,
     filterText,
     createFilterText,
     filteredData,
+    setFilterText,
+    filterValues,
   };
 
   return (

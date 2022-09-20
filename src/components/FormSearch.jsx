@@ -1,9 +1,46 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import StarWarsContext from '../context/StartWarsContext';
 
 function FormSearch() {
-  const { createFilterText, filterText } = useContext(StarWarsContext);
+  const { createFilterText,
+    filterText, setFilterText,
+    filterValues } = useContext(StarWarsContext);
   const { filterByName: { name } } = filterText;
+  const [object, setObject] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: 0 });
+  const columnArray = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+  const operatorArray = ['maior que', 'menor que', 'igual a'];
+
+  const handleChange = ({ target }) => {
+    if (target.name === 'value' && target.value < 0) target.value = 0;
+    setObject({
+      ...object,
+      [target.name]: target.value,
+    });
+  };
+
+  const handleClick = () => {
+    setFilterText({
+      ...filterText,
+      filterByNumericValues: [
+        ...filterText.filterByNumericValues,
+        {
+          column: object.column,
+          comparison: object.comparison,
+          value: object.value,
+        },
+      ],
+    });
+    filterValues(object);
+  };
 
   return (
     <div>
@@ -17,6 +54,46 @@ function FormSearch() {
           data-testid="name-filter"
         />
       </label>
+      <label htmlFor="column">
+        Column
+        <select
+          name="column"
+          data-testid="column-filter"
+          value={ object.column }
+          onChange={ handleChange }
+        >
+          {columnArray.map((item, index) => (
+            <option value={ item } key={ index } name={ item }>{ item }</option>
+          ))}
+        </select>
+      </label>
+      <label htmlFor="comparison">
+        Operator
+        <select
+          name="comparison"
+          data-testid="comparison-filter"
+          onChange={ handleChange }
+          value={ object.comparison }
+        >
+          {operatorArray.map((item, index) => (
+            <option value={ item } key={ index } name={ item }>{ item }</option>
+          ))}
+        </select>
+      </label>
+      <input
+        name="value"
+        type="number"
+        data-testid="value-filter"
+        value={ object.value }
+        onChange={ handleChange }
+      />
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ handleClick }
+      >
+        FILTER
+      </button>
     </div>
   );
 }
