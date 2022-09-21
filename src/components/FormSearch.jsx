@@ -43,6 +43,7 @@ function FormSearch() {
     });
     setColumnArray(columnArray.filter((e) => e !== object.column));
     filterValues(object);
+    console.log('clicou!');
   };
 
   return (

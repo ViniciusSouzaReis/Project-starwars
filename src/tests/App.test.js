@@ -1,18 +1,27 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import App from '../App';
-import mockData  from './helpers/mockData'
+import React from "react";
+import { screen, render, fireEvent } from "@testing-library/react";
+import { act } from 'react-dom/test-utils';
+import App from '../App'
+import mockData from './helpers/mockData';
+import userEvent from "@testing-library/user-event";
 
-// beforeEach(() => {
-//   global.fetch = jest.fn(() => Promise.resolve({
-//     json: () => Promise.resolve(mockData)
-//   }))
-// })
+// import React from 'react';
+// import { render, screen } from '@testing-library/react';
+// import userEvent from '@testing-library/user-event';
+// import App from '../App';
+// import mockData  from './helpers/mockData'
+
+beforeEach(() => {
+  global.fetch = jest.fn(() => Promise.resolve({
+    json: () => Promise.resolve(mockData)
+  }))
+})
 
 describe('teste b', () => {
-  test('I am your test', () => {
-    render(<App />);
+  test('I am your test', async () => {
+    await act(async () => {
+      render(<App />);
+    });
     const planetInput = screen.getByTestId('name-filter');
     const columnInput = screen.getByTestId('column-filter');
     const comparisionInput = screen.getByTestId('comparison-filter');
@@ -57,11 +66,9 @@ describe('teste b', () => {
 
 describe('teste a' , () => {
   test('a', async () => {
-    global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve(mockData)
-    }))
-
-    render(<App />);
+    await act(async () => {
+      render(<App />);
+    });
   
     const endpoint = 'https://swapi.dev/api/planets';
   
@@ -100,36 +107,111 @@ describe('teste a' , () => {
   })
 })
 
-describe('teste b', () => {
-  test('testa operador lógico', async() => {
-    global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve(mockData)
-    }))
+// describe('teste b', () => {
+//   test('testa operador lógico', async() => {
+//     global.fetch = jest.fn(() => Promise.resolve({
+//       json: () => Promise.resolve(mockData)
+//     }))
 
-    render(<App />);
+//     render(<App />);
   
-    const resultFilter = await screen.findByText(/Alderaan/i)
-    expect(resultFilter).toBeInTheDocument()
+//     const resultFilter = await screen.findByText(/Alderaan/i)
+//     expect(resultFilter).toBeInTheDocument()
 
-    const column = screen.getByTestId('column-filter')
-    expect(column).toBeInTheDocument();
-    const comparison1 = screen.getByTestId('comparison-filter')
-    expect(comparison1).toBeInTheDocument()
-    const value = screen.getByTestId('value-filter')
-    expect(value).toBeInTheDocument();
-    const button = screen.getByTestId('button-filter')
-    expect(button).toBeInTheDocument()
+//     const column = screen.getByTestId('column-filter')
+//     expect(column).toBeInTheDocument();
+//     const comparison1 = screen.getByTestId('comparison-filter')
+//     expect(comparison1).toBeInTheDocument()
+//     const value = screen.getByTestId('value-filter')
+//     expect(value).toBeInTheDocument();
+//     const button = screen.getByTestId('button-filter')
+//     expect(button).toBeInTheDocument()
     
 
-    userEvent.selectOptions(column, 'population')
-    userEvent.selectOptions(comparison1, 'menor que')
-    userEvent.type(value, '10000')
+//     userEvent.selectOptions(column, 'diameter')
+//     userEvent.selectOptions(comparison1, 'menor que')
+//     userEvent.type(value, '10000')
+//     userEvent.click(button)
+
+//     const resultFilter1 = await screen.findByText(/Dagobah/i);
+//     expect(resultFilter1).not.toBeInTheDocument();
+
+//   })
+// })
+
+describe('Testa operadores no componente Table', () => {
+  it('Verifica operador "maior que "', async () => {
+    await act(async () => {
+      render(<App />);
+    });
+    
+    const column = screen.getByTestId('column-filter')
+    expect(column).toBeInTheDocument()
+    userEvent.selectOptions(column, 'surface_water')
+  
+    const comparison1 = screen.getByTestId('comparison-filter')
+    expect(comparison1).toBeInTheDocument()
+    userEvent.selectOptions(comparison1, 'maior que')
+
+    const value = screen.getByTestId('value-filter')
+    expect(value).toBeInTheDocument()
+    userEvent.type(value, '90')
+  
+    const button = screen.getByTestId('button-filter')
+    expect(button).toBeInTheDocument()
     userEvent.click(button)
 
-    const resultFilter1 = await screen.findByText(/aaa/i);
-    expect(resultFilter1).toBeInTheDocument();
-
+    const resultFilter = await screen.findByText(/Kamino/i)
+    expect(resultFilter).toBeInTheDocument()
   })
-})
 
+    it('Verifica operador "menor que "', async() => {
+      await act(async () => {
+        render(<App />);
+      });
 
+      const column = screen.getByTestId('column-filter')
+      expect(column).toBeInTheDocument()
+      userEvent.selectOptions(column, 'surface_water')
+
+      const comparison = screen.getByTestId('comparison-filter')
+      expect(comparison).toBeInTheDocument()
+      userEvent.selectOptions(comparison, 'menor que')
+
+      const value = screen.getByTestId('value-filter')
+      expect(value).toBeInTheDocument()
+      userEvent.type(value, '5')
+    
+      const button = screen.getByTestId('button-filter')
+      expect(button).toBeInTheDocument()
+      userEvent.click(button)
+
+      const resultFilter = await screen.findByText(/bespin/i)
+      expect(resultFilter).toBeInTheDocument()
+    })
+
+    it('Verifica operador "igual a "', async () => {
+      await act(async () => {
+        render(<App />);
+      });
+
+      const column = screen.getByTestId('column-filter')
+      expect(column).toBeInTheDocument()
+      userEvent.selectOptions(column, 'surface_water')
+
+      const comparison = screen.getByTestId('comparison-filter')
+      expect(comparison).toBeInTheDocument()
+      userEvent.selectOptions(comparison, 'igual a')
+
+      const value = screen.getByTestId('value-filter')
+      expect(value).toBeInTheDocument()
+      userEvent.type(value, '1')
+    
+      const button = screen.getByTestId('button-filter')
+      expect(button).toBeInTheDocument()
+      userEvent.click(button)
+
+      const resultFilter = await screen.findByText(/tatooine/i)
+      expect(resultFilter).toBeInTheDocument()
+    })
+  })

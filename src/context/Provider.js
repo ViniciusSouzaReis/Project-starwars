@@ -60,21 +60,6 @@ function Provider({ children }) {
     const filteredPlanets = filteredItems.filter((e) => e !== null);
     setFilteredData(filteredPlanets);
   };
-  // const filterValues = (object) => {
-  //   const getValues = [object];
-  //   let filteredPlanets = filteredData;
-  //   getValues.forEach(({ column, comparison, value }) => {
-  //     filteredPlanets = filteredPlanets.filter((e) => {
-  //       if (comparison === 'maior que') {
-  //         return Number(e[column]) > value;
-  //       } if (comparison === 'menor que') {
-  //         return Number(e[column]) < value;
-  //       }
-  //       return Number(e[column]) === Number(value);
-  //     });
-  //   });
-  //   setFilteredData(filteredPlanets);
-  // };
 
   const contextValue = {
     data,
