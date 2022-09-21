@@ -47,18 +47,13 @@ function Provider({ children }) {
       filteredPlanets = filteredPlanets.filter((e) => {
         if (comparison === 'maior que') {
           return Number(e[column]) > value;
-        }
-        if (comparison === 'menor que') {
+        } if (comparison === 'menor que') {
           return Number(e[column]) < value;
         }
-        if (comparison === 'igual a') {
-          return Number(e[column]) === Number(value);
-        }
-        return 'a';
+        return Number(e[column]) === Number(value);
       });
     });
     setFilteredData(filteredPlanets);
-    console.log(getValues[0].column);
   };
 
   const contextValue = {

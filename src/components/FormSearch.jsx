@@ -28,7 +28,6 @@ function FormSearch() {
       ...prevState,
       [target.name]: target.value,
     }));
-    console.log(target.value);
   };
 
   const handleClick = () => {
@@ -42,10 +41,8 @@ function FormSearch() {
         },
       ],
     });
-    console.log(columnArray);
     setColumnArray(columnArray.filter((e) => e !== object.column));
     filterValues(object);
-    console.log(object.column);
   };
 
   return (
