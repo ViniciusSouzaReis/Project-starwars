@@ -41,20 +41,40 @@ function Provider({ children }) {
   };
 
   const filterValues = (object) => {
-    const getValues = [object];
-    let filteredPlanets = filteredData;
-    getValues.forEach(({ column, comparison, value }) => {
-      filteredPlanets = filteredPlanets.filter((e) => {
-        if (comparison === 'maior que') {
-          return Number(e[column]) > value;
-        } if (comparison === 'menor que') {
-          return Number(e[column]) < value;
-        }
-        return Number(e[column]) === Number(value);
-      });
+    const { column, comparison, value } = object;
+    const filteredItems = filteredData.map((item) => {
+      let chooseItem;
+      switch (comparison) {
+      case 'maior que':
+        chooseItem = (Number(item[column]) > Number(value) ? item : null);
+        break;
+      case 'menor que':
+        chooseItem = (Number(item[column]) < Number(value) ? item : null);
+        break;
+      default:
+        chooseItem = (Number(item[column]) === Number(value) ? item : null);
+      }
+      return chooseItem;
     });
+
+    const filteredPlanets = filteredItems.filter((e) => e !== null);
     setFilteredData(filteredPlanets);
   };
+  // const filterValues = (object) => {
+  //   const getValues = [object];
+  //   let filteredPlanets = filteredData;
+  //   getValues.forEach(({ column, comparison, value }) => {
+  //     filteredPlanets = filteredPlanets.filter((e) => {
+  //       if (comparison === 'maior que') {
+  //         return Number(e[column]) > value;
+  //       } if (comparison === 'menor que') {
+  //         return Number(e[column]) < value;
+  //       }
+  //       return Number(e[column]) === Number(value);
+  //     });
+  //   });
+  //   setFilteredData(filteredPlanets);
+  // };
 
   const contextValue = {
     data,

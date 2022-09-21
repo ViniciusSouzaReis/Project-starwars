@@ -81,7 +81,7 @@ describe('teste a' , () => {
   
     const value = screen.getByTestId('value-filter')
     expect(value).toBeInTheDocument()
-    userEvent.type(value, '9000')
+    userEvent.selectOptions(comparison1, 'maior que')
   
     const button = screen.getByTestId('button-filter')
     expect(button).toBeInTheDocument()
@@ -108,21 +108,27 @@ describe('teste b', () => {
 
     render(<App />);
   
+    const resultFilter = await screen.findByText(/Alderaan/i)
+    expect(resultFilter).toBeInTheDocument()
+
     const column = screen.getByTestId('column-filter')
-    expect(column).toBeInTheDocument()
-    userEvent.selectOptions(column, 'diameter')
-  
+    expect(column).toBeInTheDocument();
     const comparison1 = screen.getByTestId('comparison-filter')
     expect(comparison1).toBeInTheDocument()
-    userEvent.selectOptions(comparison1, 'menor que')
-  
     const value = screen.getByTestId('value-filter')
-    expect(value).toBeInTheDocument()
-    userEvent.type(value, '11000')
-  
+    expect(value).toBeInTheDocument();
     const button = screen.getByTestId('button-filter')
     expect(button).toBeInTheDocument()
+    
+
+    userEvent.selectOptions(column, 'population')
+    userEvent.selectOptions(comparison1, 'menor que')
+    userEvent.type(value, '10000')
     userEvent.click(button)
+
+    const resultFilter1 = await screen.findByText(/aaa/i);
+    expect(resultFilter1).toBeInTheDocument();
+
   })
 })
 
