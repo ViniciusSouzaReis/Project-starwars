@@ -16,7 +16,7 @@ function Provider({ children }) {
     const getPlanets = async () => {
       const endpoint = 'https://swapi.dev/api/planets';
       const result = await fetch(endpoint).then((response) => response.json());
-      const getArray = await result.results;
+      const getArray = result.results;
       setData(getArray.filter((e) => delete e.residents));
     };
     getPlanets();
@@ -58,7 +58,6 @@ function Provider({ children }) {
         return 'a';
       });
     });
-    console.log(filteredPlanets);
     setFilteredData(filteredPlanets);
   };
 
