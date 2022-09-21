@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import selectEvent from 'react-select-event'
 import App from '../App';
 import { mockData } from './helpers/mockData'
 
@@ -19,6 +18,7 @@ test('I am your test', () => {
   expect(numberInput).toBeInTheDocument();
   expect(btnFilter).toBeInTheDocument();
   expect(screen.getByRole('option', { name: 'maior que' }).selected).toBe(true);
+  expect(screen.getByRole('option', { name: 'menor que' }).selected).toBe(false)
 
 
   userEvent.selectOptions(
@@ -46,11 +46,23 @@ test('new tests', () => {
   userEvent.type(planetInput, 'oo')
 })
 
-// test('a', async () => {
-//   jest.spyOn(global, 'fetch');
-//   global.fetch.mockResolvedValue({
-//     json: jest.fn().mockResolvedValue(mockData),
-//   });
+
+// test('mock', () => {
 //   render(<App />);
-//   expect(global.fetch).toBeCalledWith('https://swapi.dev/api/planets')
+//   getPlanets = jest.fn();
+//   setData = jest.fn();
+
+//   getPlanets();
+//   setData();
+//   expect(setData).toHaveBeenCalled();
+//   expect(getPlanets).toHaveBeenCalled();
 // })
+
+test('a', async () => {
+  jest.spyOn(global, 'fetch');
+  global.fetch.mockResolvedValue({
+    json: jest.fn().mockResolvedValue(mockData),
+  });
+  render(<App />);
+  expect(global.fetch).toBeCalledWith('https://swapi.dev/api/planets')
+})

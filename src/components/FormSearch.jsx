@@ -6,32 +6,35 @@ function FormSearch() {
     filterText, setFilterText,
     filterValues } = useContext(StarWarsContext);
   const { filterByName: { name } } = filterText;
-  const [object, setObject] = useState({
-    column: 'population',
-    comparison: 'maior que',
-    value: 0 });
-  const columnArray = [
-    'population',
+
+  const [columnArray, setColumnArray] = useState([
     'orbital_period',
+    'population',
     'diameter',
     'rotation_period',
     'surface_water',
-  ];
+  ]);
+
+  const [object, setObject] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: 0,
+  });
+
   const operatorArray = ['maior que', 'menor que', 'igual a'];
 
   const handleChange = ({ target }) => {
-    if (target.name === 'value' && target.value < 0) target.value = 0;
-    setObject({
-      ...object,
+    setObject((prevState) => ({
+      ...prevState,
       [target.name]: target.value,
-    });
+    }));
+    console.log(target.value);
   };
 
   const handleClick = () => {
     setFilterText({
       ...filterText,
       filterByNumericValues: [
-        ...filterText.filterByNumericValues,
         {
           column: object.column,
           comparison: object.comparison,
@@ -39,7 +42,10 @@ function FormSearch() {
         },
       ],
     });
+    console.log(columnArray);
+    setColumnArray(columnArray.filter((e) => e !== object.column));
     filterValues(object);
+    console.log(object.column);
   };
 
   return (
