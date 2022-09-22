@@ -1,15 +1,8 @@
-import React from "react";
-import { screen, render, fireEvent } from "@testing-library/react";
-import { act } from 'react-dom/test-utils';
-import App from '../App'
-import mockData from './helpers/mockData';
-import userEvent from "@testing-library/user-event";
-
-// import React from 'react';
-// import { render, screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
-// import App from '../App';
-// import mockData  from './helpers/mockData'
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import App from '../App';
+import mockData  from './helpers/mockData'
 
 beforeEach(() => {
   global.fetch = jest.fn(() => Promise.resolve({
@@ -19,9 +12,8 @@ beforeEach(() => {
 
 describe('teste b', () => {
   test('I am your test', async () => {
-    await act(async () => {
-      render(<App />);
-    });
+    render(<App />);
+
     const planetInput = screen.getByTestId('name-filter');
     const columnInput = screen.getByTestId('column-filter');
     const comparisionInput = screen.getByTestId('comparison-filter');
@@ -66,9 +58,7 @@ describe('teste b', () => {
 
 describe('teste a' , () => {
   test('a', async () => {
-    await act(async () => {
-      render(<App />);
-    });
+    render(<App />);
   
     const endpoint = 'https://swapi.dev/api/planets';
   
@@ -141,9 +131,7 @@ describe('teste a' , () => {
 
 describe('Testa operadores no componente Table', () => {
   it('Verifica operador "maior que "', async () => {
-    await act(async () => {
-      render(<App />);
-    });
+    render(<App />);
     
     const column = screen.getByTestId('column-filter')
     expect(column).toBeInTheDocument()
@@ -166,9 +154,7 @@ describe('Testa operadores no componente Table', () => {
   })
 
     it('Verifica operador "menor que "', async() => {
-      await act(async () => {
-        render(<App />);
-      });
+      render(<App />);
 
       const column = screen.getByTestId('column-filter')
       expect(column).toBeInTheDocument()
@@ -191,9 +177,7 @@ describe('Testa operadores no componente Table', () => {
     })
 
     it('Verifica operador "igual a "', async () => {
-      await act(async () => {
-        render(<App />);
-      });
+      render(<App />);
 
       const column = screen.getByTestId('column-filter')
       expect(column).toBeInTheDocument()

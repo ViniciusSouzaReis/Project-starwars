@@ -61,6 +61,30 @@ function Provider({ children }) {
     setFilteredData(filteredPlanets);
   };
 
+  const newFilterValues = (array) => {
+    console.log(array);
+    if (array.length === 0) {
+      setFilteredData(data);
+    }
+    const getValues = array;
+    let filteredPlanets = data;
+    getValues.forEach(({ column, comparison, value }) => {
+      filteredPlanets = filteredPlanets.filter((e) => {
+        if (comparison === 'maior que') {
+          return Number(e[column]) > value;
+        }
+        if (comparison === 'menor que') {
+          return Number(e[column]) < value;
+        }
+        if (comparison === 'igual a') {
+          return Number(e[column]) === Number(value);
+        }
+        return 'a';
+      });
+    });
+    setFilteredData(filteredPlanets);
+  };
+
   const contextValue = {
     data,
     filterText,
@@ -68,6 +92,8 @@ function Provider({ children }) {
     filteredData,
     setFilterText,
     filterValues,
+    setFilteredData,
+    newFilterValues,
   };
 
   return (
